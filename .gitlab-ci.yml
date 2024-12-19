@@ -1,0 +1,30 @@
+stages:
+  - check
+  - build
+
+security-check:
+  stage: check
+  image:
+   name: aquasec/trivy:latest
+   entrypoint: [""] 
+  tags:
+    - test
+  script:
+  - trivy fs .
+
+release:
+  stage: build
+  tags:
+    - test
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "HELLO"
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
