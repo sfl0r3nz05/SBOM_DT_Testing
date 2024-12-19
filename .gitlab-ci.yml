@@ -11,6 +11,9 @@ security-check:
     - sbom
   script:
   - trivy --insecure --format cyclonedx --output result.json fs .
+  artifacts:
+    paths:
+      - result.json
 
 release:
   stage: build
@@ -19,9 +22,6 @@ release:
   image:
     name: artifactory.pte.sgre.one:443/acc-docker/runner/kaniko:latest
     entrypoint: [""]
-  before_script:
-    - mkdir -p /kaniko/.docker
-    - cp artifactory.pte.sgre.one_2022.crt /kaniko/ssl/artifactory.pte.sgre.one_2022.crt  # Add your certificate
   script:
     - >-
       /kaniko/executor
