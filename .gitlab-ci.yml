@@ -11,6 +11,7 @@ security-check:
     - sbom
   script:
   - trivy --insecure --format cyclonedx --output result.json fs .
+  - curl -v -X POST -H "Content-Type: application/json" -d @result.json http://192.168.64.138:8000//v1/bomexchange
   artifacts:
     paths:
       - result.json
