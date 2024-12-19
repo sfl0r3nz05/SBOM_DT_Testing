@@ -8,14 +8,14 @@ security-check:
    name: aquasec/trivy:latest
    entrypoint: [""] 
   tags:
-    - test
+    - sbom
   script:
   - trivy fs .
 
 release:
   stage: build
   tags:
-    - test
+    - sbom
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
