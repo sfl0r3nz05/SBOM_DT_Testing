@@ -10,7 +10,7 @@ security-check:
   tags:
     - sbom
   script:
-  - trivy fs .
+  - trivy --insecure fs .
 
 release:
   stage: build
