@@ -18,6 +18,8 @@ security-check:
 
 build:
   stage: build
+  tags:
+    - sbom
   script:
     - echo "Building Docker image..."
     - docker build -t vulnerable-flask-app:$CI_COMMIT_REF_SLUG .
