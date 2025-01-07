@@ -34,7 +34,19 @@ security_scan:
     entrypoint: [""]
   tags:
     - sbom
+  before_script:
+    - mkdir -p /root/.docker
+    - |
+      cat << 'EOF' > /root/.docker/config.json
+      {
+        "insecure-registries": [
+          "192.168.64.138:5000"
+        ]
+      }
+      EOF
   script:
+    - apk add --no-cache docker-cli
+    - docker pull localhost:5000/vulnerable-flask/python-app:1.0.0
     - trivy --insecure --scanners vuln --format cyclonedx --output build.json image vulnerable-flask/python-app:1.0.0
   artifacts:
     paths:
