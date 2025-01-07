@@ -34,12 +34,13 @@ security_scan:
     entrypoint: [""]
   tags:
     - sbom
+  services:
+    - docker:dind
   variables:
-    DOCKER_AUTH_CONFIG: '{"insecure-registries" : ["localhost:5000"]}'  # If using local registry
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
   script:
     - trivy image --insecure --scanners vuln --format cyclonedx --output build.json localhost:5000/vulnerable-flask/python-app:1.0.0  # Adjust registry URL as needed
   artifacts:
     paths:
       - build.json
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
