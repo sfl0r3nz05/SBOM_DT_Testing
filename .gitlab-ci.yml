@@ -16,16 +16,16 @@ security-check:
     paths:
       - source.json
 
-build:
-  stage: build
-  image: 
-    name: aquasec/trivy:latest
-    entrypoint: [""]
-  tags:
-    - sbom
-  script:
-    - echo "Building Docker image..."
-    - docker build -t vulnerable-flask-app:$CI_COMMIT_REF_SLUG .
+#build:
+#  stage: build
+#  image: 
+#    name: aquasec/trivy:latest
+#    entrypoint: [""]
+#  tags:
+#    - sbom
+#  script:
+#    - echo "Building Docker image..."
+#    - docker build -t vulnerable-flask-app:$CI_COMMIT_REF_SLUG .
 
 security_scan:
   stage: test
