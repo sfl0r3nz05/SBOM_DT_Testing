@@ -1,6 +1,6 @@
 stages:
   - check
-  - build
+  #- build
   - test
 
 security-check:
@@ -33,7 +33,7 @@ security_scan:
   tags:
     - sbom
   script:
-    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask-app:$CI_COMMIT_REF_SLUG
+    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask-app:0.1
   artifacts:
     paths:
       - build.json
