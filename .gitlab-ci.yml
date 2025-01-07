@@ -40,7 +40,7 @@ security_scan:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
   script:
-    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json localhost:5000/vulnerable-flask/python-app:1.0.0  # Adjust registry URL as needed
+    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask/python-app:1.0.0  # Adjust registry URL as needed
   artifacts:
     paths:
       - build.json
