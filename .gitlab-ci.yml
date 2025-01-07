@@ -35,7 +35,6 @@ security_scan:
   tags:
     - sbom
   before_script:
-    - apk add --no-cache docker-cli
     - mkdir -p /root/.docker
     - |
       cat << 'EOF' > /root/.docker/config.json
@@ -45,9 +44,10 @@ security_scan:
         ]
       }
       EOF
-    - docker login localhost:5000
   script:
-    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask/python-app:1.0.0
+    - apk add --no-cache docker-cli
+    - docker pull localhost:5000/vulnerable-flask/python-app:1.0.0
+    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json localhost:5000/vulnerable-flask/python-app:1.0.0
   artifacts:
     paths:
       - build.json
