@@ -41,3 +41,5 @@ security_scan:
   artifacts:
     paths:
       - build.json
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
