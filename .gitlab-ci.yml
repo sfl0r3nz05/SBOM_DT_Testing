@@ -29,9 +29,7 @@ build:
 
 security_scan:
   stage: test
-  image: 
-    name: aquasec/trivy:latest
-    entrypoint: [""]
+  image: docker:stable
   tags:
     - sbom
   script:
