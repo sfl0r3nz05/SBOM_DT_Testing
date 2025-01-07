@@ -25,11 +25,13 @@ security-check:
 #    - sbom
 #  script:
 #    - echo "Building Docker image..."
-#    - docker build -t vulnerable-flask-app:$CI_COMMIT_REF_SLUG .
+#    - docker build -t vulnerable-flask-app:0.1 .
 
 security_scan:
   stage: test
-  image: docker:stable
+  image: 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
   tags:
     - sbom
   script:
