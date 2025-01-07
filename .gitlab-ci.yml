@@ -11,7 +11,7 @@ security-check:
   tags:
     - sbom
   script:
-  - trivy --insecure --format cyclonedx --output source.json fs .
+  - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
   artifacts:
     paths:
       - source.json
