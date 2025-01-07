@@ -1,6 +1,7 @@
 stages:
   - check
   - build
+  - test
 
 security-check:
   stage: check
@@ -11,21 +12,19 @@ security-check:
     - sbom
   script:
   - trivy --insecure --format cyclonedx --output result.json fs .
-  - apk add --no-cache curl
-  - 'curl -v -X POST --max-time 300 -H  "accept: */*" -H "Content-Type: application/vnd.cyclonedx+json; version=1" -d @result.json http://192.168.64.138:8000/v1/bom'
   artifacts:
     paths:
       - result.json
 
-release:
-  stage: build
+security_scan:
+  stage: test
+  image: 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
   tags:
     - sbom
-  image:
-    name: artifactory.pte.sgre.one:443/acc-docker/runner/kaniko:latest
-    entrypoint: [""]
   script:
-    - >-
-      /kaniko/executor
-      --context "${CI_PROJECT_DIR}/"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+    - trivy image --format cyclonedx --output result.json techiescamp/pet-clinic-app:1.0.0
+  artifacts:
+    paths:
+      container_scanning: scanning-report.txt
