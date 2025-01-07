@@ -35,7 +35,7 @@ security_scan:
   tags:
     - sbom
   script:
-    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask-app:0.1
+    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask/python-app:1.0.0
   artifacts:
     paths:
       - build.json
