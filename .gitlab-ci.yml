@@ -11,10 +11,10 @@ security-check:
   tags:
     - sbom
   script:
-  - trivy --insecure --format cyclonedx --output result.json fs .
+  - trivy --insecure --format cyclonedx --output source.json fs .
   artifacts:
     paths:
-      - result.json
+      - source.json
 
 security_scan:
   stage: test
@@ -24,7 +24,7 @@ security_scan:
   tags:
     - sbom
   script:
-    - trivy image --format cyclonedx --output result.json techiescamp/pet-clinic-app:1.0.0
+    - trivy image --format cyclonedx --output build.json techiescamp/pet-clinic-app:1.0.0
   artifacts:
     paths:
-      container_scanning: scanning-report.txt
+      - build.json
