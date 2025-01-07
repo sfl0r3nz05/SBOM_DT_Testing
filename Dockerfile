@@ -1,11 +1,15 @@
-FROM python:3.9.2
+FROM python:3.10.8-slim-buster
 
-WORKDIR python-docker
+RUN apt-get clean \
+    && apt-get -y update
 
-COPY requirements.txt requirements.txt
+RUN apt-get -y install nginx \
+    && apt-get -y install python3-dev \
+    && apt-get -y install build-essential
 
-RUN pip3 install -r requirements.txt
+COPY conf/nginx.conf /etc/nginx
+COPY --chown=www-data:www-data . /srv/flask_app
 
-COPY . .
-
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+WORKDIR /srv/flask_app
+RUN pip install -r requirements.txt --src /usr/local/src
+CMD ["/bin/bash", "-e", "./start.sh"]

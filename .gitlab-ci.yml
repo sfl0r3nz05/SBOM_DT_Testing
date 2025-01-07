@@ -16,6 +16,12 @@ security-check:
     paths:
       - source.json
 
+build:
+  stage: build
+  script:
+    - echo "Building Docker image..."
+    - docker build -t vulnerable-flask-app:$CI_COMMIT_REF_SLUG .
+
 security_scan:
   stage: test
   image: 
@@ -24,7 +30,7 @@ security_scan:
   tags:
     - sbom
   script:
-    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json techiescamp/pet-clinic-app:1.0.0
+    - trivy image --insecure --scanners vuln --format cyclonedx --output build.json vulnerable-flask-app:$CI_COMMIT_REF_SLUG
   artifacts:
     paths:
       - build.json
