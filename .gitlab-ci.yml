@@ -18,6 +18,9 @@ security-check:
 
 build:
   stage: build
+  image: 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
   tags:
     - sbom
   script:
