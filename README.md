@@ -43,11 +43,13 @@ stages:
   - source
   - sbom_source
 
-tryvy_sbom_source:
+trivy_sbom_source:
   stage: source
   image:
-   name: aquasec/trivy:latest
-   entrypoint: [""] 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  variables:
+    TRIVY_NO_PROGRESS: "true"
   tags:
     - sbom
   script:
@@ -71,6 +73,4 @@ sbom_upload:
       -F "projectName=gilab-ci-test" \
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@sbom.json"
-  rules:
-    - !reference [tryvy_sbom_source, rules]
 ```
