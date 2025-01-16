@@ -5,12 +5,14 @@ stages:
 trivy_sbom_source:
   stage: source
   image:
-   name: aquasec/trivy:latest
-   entrypoint: [""] 
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  variables:
+    TRIVY_NO_PROGRESS: "true"
   tags:
     - sbom
   script:
-  - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
+  - trivy fs --insecure --format cyclonedx --output source.json .
   artifacts:
     paths:
       - source.json
