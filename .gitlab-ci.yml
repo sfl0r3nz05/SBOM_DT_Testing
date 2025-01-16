@@ -10,7 +10,7 @@ trivy_sbom_source:
   tags:
     - sbom
   script:
-  - trivy --insecure --scanners vuln --dependency-tree --format cyclonedx --output source.json fs .
+  - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
   artifacts:
     paths:
       - source.json
