@@ -2,7 +2,7 @@ stages:
   - source
   - sbom_source
 
-tryvy_sbom_source:
+trivy_sbom_source:
   stage: source
   image:
    name: aquasec/trivy:latest
@@ -18,7 +18,7 @@ tryvy_sbom_source:
 sbom_upload:
   stage: sbom_source
   needs:
-    - tryvy_sbom_source
+    - trivy_sbom_source
   variables:
     GIT_STRATEGY: none # only artifacts from previous jobs
   script:
@@ -30,8 +30,6 @@ sbom_upload:
       -F "projectName=gilab-ci-test" \
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@source.json"
-  rules:
-    - !reference [tryvy_sbom_source, rules]
 
 #build:
 #  stage: build
