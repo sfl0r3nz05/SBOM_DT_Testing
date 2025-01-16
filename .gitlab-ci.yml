@@ -1,10 +1,9 @@
 stages:
-  - check
-  #- build
-  - test
+  - source
+  - sbom_source
 
-security-check:
-  stage: check
+tryvy_sbom_source:
+  stage: source
   image:
    name: aquasec/trivy:latest
    entrypoint: [""] 
@@ -15,6 +14,24 @@ security-check:
   artifacts:
     paths:
       - source.json
+
+sbom_upload:
+  stage: sbom_source
+  needs:
+    - tryvy_sbom_source
+  variables:
+    GIT_STRATEGY: none # only artifacts from previous jobs
+  script:
+    - | 
+      curl -X "POST" --fail "https://192.168.64.138/api/v1/bom" \
+      -H "Content-Type: multipart/form-data" \
+      -H "X-Api-Key: odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju" \
+      -F "autoCreate=true" \
+      -F "projectName=gilab-ci-test" \
+      -F "projectVersion=${CI_COMMIT_BRANCH}" \
+      -F "bom=@source.json"
+  rules:
+    - !reference [tryvy_sbom_source, rules]
 
 #build:
 #  stage: build
@@ -27,15 +44,15 @@ security-check:
 #    - echo "Building Docker image..."
 #    - docker build -t vulnerable-flask-app:0.1 .
 
-security_scan:
-  stage: test
-  image: 
-    name: aquasec/trivy:latest
-    entrypoint: [""]
-  tags:
-    - sbom
-  script:
-    - trivy --insecure --scanners vuln --format cyclonedx --output build.json image sflorenz05/vulnerable-flask-app:1.0.0
-  artifacts:
-    paths:
-      - build.json
+# security_scan:
+#   stage: test
+#   image: 
+#     name: aquasec/trivy:latest
+#     entrypoint: [""]
+#   tags:
+#     - sbom
+#   script:
+#     - trivy --insecure --scanners vuln --format cyclonedx --output build.json image sflorenz05/vulnerable-flask-app:1.0.0
+#   artifacts:
+#     paths:
+#       - build.json
