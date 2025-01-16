@@ -12,7 +12,7 @@ trivy_sbom_source:
   tags:
     - sbom
   script:
-  - trivy fs --insecure --format cyclonedx --output source.json .
+  - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
   artifacts:
     paths:
       - source.json
