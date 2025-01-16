@@ -38,6 +38,8 @@ tree -d
 ```
 5. Add Dependency Track interaction from pipeline
 
+> It is assumed that there is a gitlab runner that communicates with the Dependency Track platform.
+
 ```console
 stages:
   - source
