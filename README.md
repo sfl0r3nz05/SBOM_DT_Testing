@@ -76,4 +76,3 @@ sbom_upload:
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@sbom.json"
 ```
-
