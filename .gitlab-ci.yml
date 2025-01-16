@@ -19,6 +19,8 @@ sbom_upload:
   stage: sbom_source
   needs:
     - trivy_sbom_source
+  tags:
+    - sbom
   variables:
     GIT_STRATEGY: none # only artifacts from previous jobs
   script:
