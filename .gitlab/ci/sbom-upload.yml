@@ -6,7 +6,10 @@
   tags:
     - sbom
   script:
-    - | 
+    - |
+      echo "Uploading SBOM to: ${DEPENDENCY_TRACK_URL}/api/v1/bom"
+      echo "Project Name: ${CI_PROJECT_NAME}"
+      echo "Project Version: ${CI_COMMIT_BRANCH}"
       curl -X "POST" "http://${DEPENDENCY_TRACK_URL}:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
       -H "Content-Type: multipart/form-data" \
       -H "X-Api-Key: ${DEPENDENCY_TRACK_API_KEY}" \
