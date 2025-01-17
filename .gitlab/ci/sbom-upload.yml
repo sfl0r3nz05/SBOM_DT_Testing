@@ -7,8 +7,8 @@
     - sbom
   script:
     - |
-      curl -v -X "POST" "http://${DEPENDENCY_TRACK_URL}:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
-      -H "Content-Type: multipart/form-data" \
+      curl -v "http://${DEPENDENCY_TRACK_URL}:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
+      -H "Accept: application/json" \
       -H "X-Api-Key: ${DEPENDENCY_TRACK_API_KEY}" \
       -F "autoCreate=true" \
       -F "projectName=${CI_PROJECT_NAME}" \
