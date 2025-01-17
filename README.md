@@ -7,7 +7,8 @@ docker run -d -m 8192m -p 8080:8080 --name dependency-track -v dependency-track:
 ```
 
 2. Create a API_KEY, with necessary permissions
-![](img/apikey_dt.png)
+
+<img src="img/apikey_dt.png" width="200">
 
 3. Test a SBOM
 
@@ -20,7 +21,7 @@ curl -X "POST" "https://YOUR_IP_DT:8080/api/v1/bom" \
      -F "projectVersion=test" \
      -F "bom=@sbom.json"
 ```
-![](img/dt_sample.png)
+<img src="img/dt_sample.png" width="200">
 
 4. Use an [extremely-vulnerable-flask-app](https://github.com/manuelz120/extremely-vulnerable-flask-app) for testing purpose:
 
@@ -76,3 +77,7 @@ sbom_upload:
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@sbom.json"
 ```
+
+6. Depedency Track displays the results
+
+<img src="img/dt_result.png" width="200">
