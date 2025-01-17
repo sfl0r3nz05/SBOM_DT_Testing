@@ -9,10 +9,10 @@
     DEPENDENCY_TRACK_API_KEY: "odt_dx3lgquKjrVrUuBrvBqxfaT3whGn1wqw"
   script:
     - |
-      curl -X "POST" "http://192.168.64.138:8080/api/v1/bom" \
+      curl -X "POST" "http://${DEPENDENCY_TRACK_URL}:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
       -H "Content-Type: multipart/form-data" \
       -H "X-Api-Key: odt_dx3lgquKjrVrUuBrvBqxfaT3whGn1wqw" \
       -F "autoCreate=true" \
-      -F "projectName=gitlab-sbom" \
-      -F "projectVersion=gitlab-sbom" \
+      -F "projectName=${CI_PROJECT_NAME}" \
+      -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@source.json"
