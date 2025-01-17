@@ -1,0 +1,15 @@
+
+# File: .gitlab/ci/trivy-scan.yml
+.trivy_sbom_scan:
+  image:
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  variables:
+    TRIVY_NO_PROGRESS: "true"
+  tags:
+    - sbom
+  script:
+    - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
+  artifacts:
+    paths:
+      - source.json

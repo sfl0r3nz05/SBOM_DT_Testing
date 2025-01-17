@@ -1,39 +1,24 @@
+# File: .gitlab-ci.yml
+include:
+  - local: .gitlab/ci/trivy-scan.yml
+  - local: .gitlab/ci/sbom-upload.yml
+
 stages:
   - source
   - sbom_source
 
 trivy_sbom_source:
   stage: source
-  image:
-    name: aquasec/trivy:latest
-    entrypoint: [""]
-  variables:
-    TRIVY_NO_PROGRESS: "true"
-  tags:
-    - sbom
-  script:
-  - trivy --insecure --scanners vuln --format cyclonedx --output source.json fs .
-  artifacts:
-    paths:
-      - source.json
+  extends: .trivy_sbom_scan
 
 sbom_upload:
   stage: sbom_source
+  extends: .sbom_upload
   needs:
     - trivy_sbom_source
-  tags:
-    - sbom
   variables:
-    GIT_STRATEGY: none # only artifacts from previous jobs
-  script:
-    - | 
-      curl -X "POST" "http://192.168.64.138:8080/api/v1/bom" \
-      -H "Content-Type: multipart/form-data" \
-      -H "X-Api-Key: odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju" \
-      -F "autoCreate=true" \
-      -F "projectName=gilab-ci-test" \
-      -F "projectVersion=${CI_COMMIT_BRANCH}" \
-      -F "bom=@source.json"
+    DEPENDENCY_TRACK_URL: "http://192.168.64.138:8080"
+    DEPENDENCY_TRACK_API_KEY: "odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju"
 
 #build:
 #  stage: build
