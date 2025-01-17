@@ -1,8 +1,6 @@
 
 # File: .gitlab/ci/sbom-upload.yml
 .sbom_upload:
-  variables:
-    GIT_STRATEGY: none
   tags:
     - sbom
   script:
