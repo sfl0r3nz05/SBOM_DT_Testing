@@ -9,8 +9,8 @@
     - |
       curl -X "POST" "http://192.168.64.138:8080/api/v1/bom" \
       -H "Content-Type: multipart/form-data" \
-      -H "X-Api-Key: ${DEPENDENCY_TRACK_API_KEY}" \
+      -H "X-Api-Key: odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju" \
       -F "autoCreate=true" \
-      -F "projectName=${CI_PROJECT_NAME}" \
+      -F "projectName=${CI_PROJECT_ID}" \
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@source.json"
