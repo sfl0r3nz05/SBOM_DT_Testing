@@ -11,6 +11,6 @@
       -H "Content-Type: multipart/form-data" \
       -H "X-Api-Key: odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju" \
       -F "autoCreate=true" \
-      -F "projectName=${CI_PROJECT_ID}" \
+      -F "projectName=gilab-ci-sbom" \
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@source.json"
