@@ -3,10 +3,6 @@
 .sbom_upload:
   tags:
     - sbom
-  variables:
-    DEPENDENCY_TRACK_URL: "192.168.64.138"
-    DEPENDENCY_TRACK_PORT: 8080
-    DEPENDENCY_TRACK_API_KEY: "odt_dx3lgquKjrVrUuBrvBqxfaT3whGn1wqw"
   script:
     - |
       curl -X "POST" "http://${DEPENDENCY_TRACK_URL}:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
@@ -14,5 +10,5 @@
       -H "X-Api-Key: odt_dx3lgquKjrVrUuBrvBqxfaT3whGn1wqw" \
       -F "autoCreate=true" \
       -F "projectName=${CI_PROJECT_NAME}" \
-      -F "projectVersion=${CI_COMMIT_BRANCH}" \
+      -F "projectVersion=${CI_COMMIT_SHA}" \
       -F "bom=@source.json"
