@@ -3,12 +3,16 @@
 .sbom_upload:
   tags:
     - sbom
+  variables:
+    DEPENDENCY_TRACK_URL: "192.168.64.138"
+    DEPENDENCY_TRACK_PORT: 8080
+    DEPENDENCY_TRACK_API_KEY: "odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju"
   script:
     - |
-      curl -X "POST" "http://192.168.64.138:8080/api/v1/bom" \
+      curl -X "POST" "http://192.168.64.138:${DEPENDENCY_TRACK_PORT}/api/v1/bom" \
       -H "Content-Type: multipart/form-data" \
       -H "X-Api-Key: odt_VAMlX4xn0D82M1ywpxhpUr3aHgLSGSju" \
       -F "autoCreate=true" \
-      -F "projectName=gilab-ci-sbom" \
+      -F "projectName=${CI_PROJECT_NAME}" \
       -F "projectVersion=${CI_COMMIT_BRANCH}" \
       -F "bom=@source.json"
