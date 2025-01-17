@@ -6,11 +6,16 @@
   tags:
     - sbom
   script:
-    - | 
-      curl -X "POST" "${DEPENDENCY_TRACK_URL}/api/v1/bom" \
-      -H "Content-Type: multipart/form-data" \
-      -H "X-Api-Key: ${DEPENDENCY_TRACK_API_KEY}" \
-      -F "autoCreate=true" \
-      -F "projectName=${CI_PROJECT_NAME}" \
-      -F "projectVersion=${CI_COMMIT_BRANCH}" \
-      -F "bom=@source.json"
+    - |
+      response=$(curl -X "POST" "${DEPENDENCY_TRACK_URL}/api/v1/bom" \
+        -H "Content-Type: multipart/form-data" \
+        -H "X-Api-Key: ${DEPENDENCY_TRACK_API_KEY}" \
+        -F "autoCreate=true" \
+        -F "projectName=${CI_PROJECT_NAME}" \
+        -F "projectVersion=${CI_COMMIT_BRANCH}" \
+        -F "bom=@source.json")
+      echo "Response: $response"
+      if ! echo "$response" | grep -q "token"; then
+        echo "Error: Failed to upload SBOM - no token received in response"
+        exit 1
+      fi
