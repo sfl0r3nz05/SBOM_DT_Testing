@@ -8,7 +8,7 @@ docker run -d -m 8192m -p 8080:8080 --name dependency-track -v dependency-track:
 
 2. Create a API_KEY, with necessary permissions
 
-<img src="img/apikey_dt.png" width="600">
+<img src="img/apikey_dt.png" width="800">
 
 3. Test a SBOM
 
@@ -80,4 +80,4 @@ sbom_upload:
 
 6. Depedency Track displays the results
 
-<img src="img/dt_result.png" width="600">
+<img src="img/dt_result.png" width="800">
